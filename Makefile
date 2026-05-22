@@ -98,6 +98,11 @@ docker-build:
 .PHONY: check
 check: fmt vet lint
 
+## watch: Rebuild crowdsec on source changes (requires entr: apt/brew install entr)
+.PHONY: watch
+watch:
+	find . -name '*.go' | entr -r make build-crowdsec
+
 ## help: Display this help message
 .PHONY: help
 help:
