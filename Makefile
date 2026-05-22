@@ -55,6 +55,7 @@ test-race:
 coverage:
 	$(GO) test ./... -coverprofile=coverage.out -covermode=atomic
 	$(GO) tool cover -html=coverage.out -o coverage.html
+	# Note: open coverage.html in a browser to view results
 
 ## lint: Run golangci-lint
 .PHONY: lint
@@ -92,6 +93,10 @@ install:
 .PHONY: docker-build
 docker-build:
 	docker buildx bake --file docker-bake.hcl
+
+## check: Run fmt, vet, and lint in sequence (useful before committing)
+.PHONY: check
+check: fmt vet lint
 
 ## help: Display this help message
 .PHONY: help
