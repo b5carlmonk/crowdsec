@@ -104,6 +104,14 @@ check: fmt vet lint
 watch:
 	find . -name '*.go' | entr -r make build
 
+## dev: Quick build without trimpath for faster local iteration
+# Skipping -trimpath speeds up incremental builds during development
+.PHONY: dev
+dev:
+	@mkdir -p $(OUTPUT_DIR)
+	$(GO) build $(LDFLAGS) -o $(OUTPUT_DIR)/$(BINARY_NAME) $(BUILD_DIR)/crowdsec/main.go
+	$(GO) build $(LDFLAGS) -o $(OUTPUT_DIR)/$(CLI_NAME) $(BUILD_DIR)/crowdsec-cli/main.go
+
 ## help: Display this help message
 .PHONY: help
 help:
