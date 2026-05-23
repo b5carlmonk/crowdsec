@@ -106,18 +106,9 @@ watch:
 
 ## dev: Quick build without trimpath for faster local iteration
 # Skipping -trimpath speeds up incremental builds during development
+# Also skipping -s -w to keep debug symbols available for dlv
 .PHONY: dev
 dev:
 	@mkdir -p $(OUTPUT_DIR)
-	$(GO) build $(LDFLAGS) -o $(OUTPUT_DIR)/$(BINARY_NAME) $(BUILD_DIR)/crowdsec/main.go
-	$(GO) build $(LDFLAGS) -o $(OUTPUT_DIR)/$(CLI_NAME) $(BUILD_DIR)/crowdsec-cli/main.go
-
-## help: Display this help message
-.PHONY: help
-help:
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "Targets:"
-	@sed -n 's/^## //p' $(MAKEFILE_LIST) | column -t -s ':' | sed -e 's/^/  /'
-
-.DEFAULT_GOAL := help
+	$(GO) build -o $(OUTPUT_DIR)/$(BINARY_NAME) $(BUILD_DIR)/crowdsec/main.go
+	$(GO) build -o $(OUTPUT_DIR)/$(CLI_NAME) $(BUILD_DIR)/crowdsec-cli/main.go
